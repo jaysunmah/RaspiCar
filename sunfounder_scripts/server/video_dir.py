@@ -8,6 +8,8 @@ MaxPulse = 700
 Current_x = 0
 Current_y = 0
 
+deltaTheta = 5
+
 def setup(busnum=None):
 	global Xmin, Ymin, Xmax, Ymax, home_x, home_y, pwm
 	offset_x = 0
@@ -40,7 +42,7 @@ def setup(busnum=None):
 # ==========================================================================================
 def move_decrease_x():
 	global Current_x
-	Current_x += 25
+	Current_x += deltaTheta
 	if Current_x > Xmax:
 		Current_x = Xmax
         pwm.write(14, 0, Current_x)   # CH14 <---> X axis
@@ -50,7 +52,7 @@ def move_decrease_x():
 # ==========================================================================================
 def move_increase_x():
 	global Current_x
-	Current_x -= 25
+	Current_x -= deltaTheta
 	if Current_x <= Xmin:
 		Current_x = Xmin
         pwm.write(14, 0, Current_x)
@@ -60,7 +62,7 @@ def move_increase_x():
 # ==========================================================================================
 def move_increase_y():
 	global Current_y
-	Current_y += 25
+	Current_y += deltaTheta
 	if Current_y > Ymax:
 		Current_y = Ymax
         pwm.write(15, 0, Current_y)   # CH15 <---> Y axis
@@ -70,7 +72,7 @@ def move_increase_y():
 # ==========================================================================================		
 def move_decrease_y():
 	global Current_y
-	Current_y -= 25
+	Current_y -= deltaTheta
 	if Current_y <= Ymin:
 		Current_y = Ymin
         pwm.write(15, 0, Current_y)
