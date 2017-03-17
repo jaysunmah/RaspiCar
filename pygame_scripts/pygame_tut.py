@@ -24,7 +24,7 @@ tcpCliSock.send(data)  # Send the speed data to the server(Raspberry Pi)
 running = 1
 
 #control how often we send our pulses for panning
-tickBuffer = 1
+tickBuffer = 5
 currentTick = 0
 panLeft = False
 panRight = False
