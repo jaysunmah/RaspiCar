@@ -1,4 +1,4 @@
 cd /
-cd home/pi/SainsmartLCD2004
+cd home/pi/projects/RaspiCar/sunfounder_scripts/server
 sudo python lcd.py
 cd /

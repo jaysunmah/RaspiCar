@@ -27,7 +27,7 @@ pins = [Motor0_A, Motor0_B, Motor1_A, Motor1_B]
 # ===========================================================================
 def setSpeed(speed):
 	speed *= 40
-	print 'speed is: ', speed
+	#print 'speed is: ', speed
 	pwm.write(EN_M0, 0, speed)
 	pwm.write(EN_M1, 0, speed)
 
