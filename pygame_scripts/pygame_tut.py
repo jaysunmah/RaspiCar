@@ -24,12 +24,17 @@ tcpCliSock.send(data)  # Send the speed data to the server(Raspberry Pi)
 running = 1
 
 #control how often we send our pulses for panning
-tickBuffer = 5
+tickBuffer = 3
 currentTick = 0
 panLeft = False
 panRight = False
 panUp = False
 panDown = False
+
+moveForward = False
+moveBackward = False
+moveLeft = False
+moveRight = False
 
 while running:
   for event in pygame.event.get():
@@ -42,13 +47,13 @@ while running:
       if (event.key <= 127):
         key = chr(event.key)
         if key == "w":
-          tcpCliSock.send('forward')
+          moveForward = True
         elif key == "a":
-          tcpCliSock.send('left')
+          moveLeft = True
         elif key == "s":
-          tcpCliSock.send('backward')
+          moveBackward = True
         elif key == "d":
-          tcpCliSock.send('right')
+          moveRight = True
       else:
         if event.key == pygame.K_UP:
           panUp = True
@@ -63,14 +68,13 @@ while running:
       if (event.key <= 127):
         key = chr(event.key)
         if key == "w":
-          tcpCliSock.send('stop')
+          moveForward = False
         elif key == "a":
-          tcpCliSock.send('home')
+          moveLeft = False
         elif key == "s":
-          tcpCliSock.send('stop')
+          moveBackward = False
         elif key == "d":
-          tcpCliSock.send('left')
-          tcpCliSock.send('home')
+          moveRight = False
       else:
         if event.key == pygame.K_UP:
           panUp = False
@@ -97,6 +101,21 @@ while running:
   if panDown:
     if currentTick % tickBuffer == 0:
       tcpCliSock.send('y-')
+
+  if moveForward:
+    tcpCliSock.send('forward')
+  elif moveBackward:
+    tcpCliSock.send('backward')
+  else:
+    tcpCliSock.send('stop')
+
+  if moveLeft:
+    tcpCliSock.send('left')
+  elif moveRight:
+    tcpCliSock.send('right')
+  else:
+    tcpCliSock.send('home')
+
 
   currentTick += 1
 
