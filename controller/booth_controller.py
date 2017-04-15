@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 from socket import *      # Import necessary modules
 import pygame
+import os
 import RPi.GPIO as GPIO
 
 ctrl_cmd = ['forward', 'backward', 'left', 'right', 'stop', 'read cpu_temp', 'home', 'distance', 'x+', 'x-', 'y+', 'y-', 'xy_home']
@@ -14,7 +15,8 @@ ADDR = (HOST, PORT)
 tcpCliSock = socket(AF_INET, SOCK_STREAM)   # Create a socket
 tcpCliSock.connect(ADDR)                    # Connect with the server
 
-screen = pygame.display.set_mode((640,400))
+os.environ["SDL_VIDEODRIVER"] = "dummy"
+screen = pygame.display.set_mode((1,1))
 clock = pygame.time.Clock()
 
 GPIO.setmode(GPIO.BCM)
