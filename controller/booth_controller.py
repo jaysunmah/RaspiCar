@@ -103,6 +103,8 @@ while running:
 
   moveForward = GPIO.input(gpio_fwd)
   moveBackward = GPIO.input(gpio_back)
+  moveLeft = GPIO.input(gpio_left)
+  moveRight = GPIO.input(gpio_right)
   
   if panLeft:
     if currentTick % tickBuffer == 0:
