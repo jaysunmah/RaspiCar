@@ -21,7 +21,7 @@ clock = pygame.time.Clock()
 
 GPIO.setmode(GPIO.BCM)
 
-spd = 50
+spd = 35
 tmp = 'speed'
 data = tmp + str(spd)  # Change the integers into strings and combine them with the string 'speed'. 
 tcpCliSock.send(data)  # Send the speed data to the server(Raspberry Pi)
@@ -45,12 +45,15 @@ gpio_fwd = 26
 gpio_back = 19
 gpio_left = 21
 gpio_right = 20
+gpio_panup = 13
+gpio_pandown = 6
 
 GPIO.setup(gpio_back, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(gpio_fwd, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(gpio_left, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(gpio_right, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-#GPIO.setup(gpio_pandown, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(gpio_panup, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+GPIO.setup(gpio_pandown, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 while running:
   for event in pygame.event.get():
@@ -107,25 +110,16 @@ while running:
   moveBackward = GPIO.input(gpio_back)
   moveLeft = GPIO.input(gpio_left)
   moveRight = GPIO.input(gpio_right)
+  panUp =  GPIO.input(gpio_panup)
+  panDown =  GPIO.input(gpio_pandown)
   
-  if panLeft:
-    if currentTick % tickBuffer == 0:
-      tcpCliSock.send('x-')
-
-  if panRight:
-    if currentTick % tickBuffer == 0:
-      tcpCliSock.send('x+')
-
-  if panUp:
-    if currentTick % tickBuffer == 0:
+  if panUp and currentTick % tickBuffer == 0:
       tcpCliSock.send('y+')
 
-  if panDown:
-    if currentTick % tickBuffer == 0:
+  if panDown and currentTick % tickBuffer == 0:
       tcpCliSock.send('y-')
 
   if moveForward:
-    print 'SENDING FORWARDS'
     tcpCliSock.send('forward')
   elif moveBackward:
     tcpCliSock.send('backward')
