@@ -7,7 +7,7 @@ import RPi.GPIO as GPIO
 
 ctrl_cmd = ['forward', 'backward', 'left', 'right', 'stop', 'read cpu_temp', 'home', 'distance', 'x+', 'x-', 'y+', 'y-', 'xy_home']
 
-HOST = '128.237.232.190'    # Server(Raspberry Pi) IP address
+HOST = '128.237.247.101'    # Server(Raspberry Pi) IP address
 PORT = 21567
 BUFSIZ = 1024             # buffer size
 ADDR = (HOST, PORT)
@@ -16,12 +16,12 @@ tcpCliSock = socket(AF_INET, SOCK_STREAM)   # Create a socket
 tcpCliSock.connect(ADDR)                    # Connect with the server
 
 os.environ["SDL_VIDEODRIVER"] = "dummy"
-screen = pygame.display.set_mode((1,1))
+pygame.init()
 clock = pygame.time.Clock()
 
 GPIO.setmode(GPIO.BCM)
 
-spd = 35
+spd = 99
 tmp = 'speed'
 data = tmp + str(spd)  # Change the integers into strings and combine them with the string 'speed'. 
 tcpCliSock.send(data)  # Send the speed data to the server(Raspberry Pi)
@@ -41,12 +41,12 @@ moveBackward = False
 moveLeft = False
 moveRight = False
 
-gpio_fwd = 26
-gpio_back = 19
-gpio_left = 21
-gpio_right = 20
-gpio_panup = 13
-gpio_pandown = 6
+gpio_fwd = 6
+gpio_back = 13
+gpio_left = 20
+gpio_right = 21
+gpio_panup = 19
+gpio_pandown = 26
 
 GPIO.setup(gpio_back, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 GPIO.setup(gpio_fwd, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
@@ -137,7 +137,6 @@ while running:
   currentTick += 1
 
   clock.tick(60)
-  screen.fill((0,122,122))
 
 
 
